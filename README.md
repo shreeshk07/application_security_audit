@@ -4,7 +4,7 @@ Security audit of a Java 21 Swing application backed by MySQL 8.
 Five vulnerabilities found, documented, exploited with proof-of-concept
 attacks, and fully remediated.
 
-Full write-up: [Read the article on Medium](YOUR MEDIUM LINK HERE)
+Full write-up: [Read the article on Medium](https://medium.com/@shreeshk08/i-was-given-a-broken-java-app-i-found-every-flaw-proved-every-attack-then-fixed-everything-7079c433e28e)
 
 ---
 
@@ -40,21 +40,46 @@ Full write-up: [Read the article on Medium](YOUR MEDIUM LINK HERE)
 
 ---
 
+## Prerequisites
+
+Install these before running anything:
+
+| Tool | Version | Download |
+|---|---|---|
+| JDK | 21 | https://www.oracle.com/java/technologies/downloads/#java21 |
+| MySQL | 8.0+ | https://dev.mysql.com/downloads/mysql/ |
+| MySQL Workbench | Latest | https://dev.mysql.com/downloads/workbench/ |
+| Apache NetBeans | 23 | https://netbeans.apache.org/front/main/download/ |
+| Apache Maven | 3.9+ | Bundled with NetBeans — no separate install needed |
+
+> Maven handles all Java dependencies automatically including jBCrypt 0.4.
+> You do not need to download any JAR files manually.
+
+---
+
 ## Setup
 
-1. Import schema.sql into MySQL 8
-2. Update DB credentials in the config file
-3. Open the project in Apache NetBeans 23
-4. Build with Maven and run
+### 1. Clone the repository
 
----
+```bash
+git clone https://github.com/shreeshk08/bookshop-security-audit.git
+cd bookshop-security-audit
+```
 
-## Stack
+### 2. Set up the database
 
-Java 21 · Java Swing · MySQL 8 · JDBC · jBCrypt 0.4 · Apache Maven · NetBeans 23
+Open MySQL Workbench and connect to your local MySQL 8 instance.
 
-Standards: OWASP Top 10:2025 · ASVS 4.0 · NIST SSDF SP 800-218
+Run the schema file to create the database and seed it with data:
 
----
+```sql
+source /path/to/bookshop-security-audit/schema.sql
+```
 
-MSc Cyber Security — National College of Ireland
+Or open `schema.sql` in MySQL Workbench and click the lightning bolt to execute it.
+
+This creates the `bookshop` database with all tables and default users pre-loaded.
+
+### 3. Update the database credentials
+
+In each project version (01-baseline, 02-vulnerable, 03-secured), open the database config file:
